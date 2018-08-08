@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-lg-8">
+    <div class="form-inline">
+      <div class="form-group">
+        <label>Pagination:</label>
+        <input type="checkbox" [checked]="pagination" (change)="pagination = !pagination" >
+      </div>
+    
+      <div class="form-group">
+        <label>Page #:</label>
+        <input class="form-control" type="text" [(ngModel)]="page" size="2">
+      </div>
+      <div class="form-group">
+        <label>Page Size:</label>
+        <input class="form-control" type="text" [(ngModel)]="size" size="2">
+      </div>    
+
+      <button class="btn btn-primary" (click)="requestQuoteStream()">Reactive Request</button>
+      <button class="btn" (click)="requestQuoteBlocking()">Blocking Request</button>
+    </div>
+
+    <br>
+
+    <table class="table table-striped table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Quote ID</th>
+          <th>Book</th>
+          <th>Quote Content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let quote of quotes | async" [class.success]="quote === selectedQuote" (click)="onSelect(quote)">
+          <td>{{quote.id}}</td>
+          <td>{{quote.book}}</td>
+          <td>{{quote.content.substr(0, 30)}}...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="message">Click on a quote for mode details</div>
+    <app-quote-detail [quote]="selectedQuote"></app-quote-detail>
+  </div>
+</div>
